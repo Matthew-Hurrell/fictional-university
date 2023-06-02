@@ -28,13 +28,34 @@
             </div>
         <?php endif; ?>
 
-      <!-- <div class="page-links">
-        <h2 class="page-links__title"><a href="#">About Us</a></h2>
+      <?php 
+      
+        $post_child = get_pages([
+          'child_of' => get_the_ID()
+        ]);
+        
+        if($post_parent or $post_child) : 
+      
+      ?>
+      <div class="page-links">
+        <h2 class="page-links__title"><a href="<?php echo get_permalink($post_parent); ?>"><?php echo get_the_title($post_parent); ?></a></h2>
         <ul class="min-list">
-          <li class="current_page_item"><a href="#">Our History</a></li>
-          <li><a href="#">Our Goals</a></li>
+          <?php 
+
+            if ($post_parent) {
+              $postChildren = $post_parent;
+            } else {
+              $postChildren = get_the_ID();
+            }
+            wp_list_pages([
+              'title_li' => null,
+              'child_of' => $postChildren,
+              'sort_column' => 'menu_order'
+            ]);
+          ?>
         </ul>
-      </div> -->
+      </div>
+      <?php endif; ?>
 
       <div class="generic-content">
        <?php the_content(); ?>
